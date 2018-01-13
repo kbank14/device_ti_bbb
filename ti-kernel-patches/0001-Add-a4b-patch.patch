@@ -1,0 +1,59 @@
+From 1fd79550eb08071905de563699a3c85dbae8dd7c Mon Sep 17 00:00:00 2001
+From: Chris Simonds <chris@2net.co.uk>
+Date: Tue, 27 Jun 2017 09:54:50 +0100
+Subject: [PATCH] a4b patch
+
+---
+ patch.sh | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/patch.sh b/patch.sh
+index 30b4905..504d760 100644
+--- a/patch.sh
++++ b/patch.sh
+@@ -976,6 +976,34 @@ quieter () {
+ 	fi
+ }
+ 
++a4b () {
++	# Apply SELinux patches to Android4Beagle
++	echo "dir: a4b"
++	#regenerate="enable"
++	if [ "x${regenerate}" = "xenable" ] ; then
++		start_cleanup
++	fi
++        ${git} "${DIR}/patches/a4b/0002-Reboot-reason-patch-for-BBB.patch"
++        ${git} "${DIR}/patches/a4b/0054-Add-android_aid.h.patch"
++        ${git} "${DIR}/patches/a4b/0062-security-Add-AID_NET_RAW-and-AID_NET_ADMIN-capabilit.patch"
++        ${git} "${DIR}/patches/a4b/0382-security-Add-proper-checks-for-Android-specific-capa.patch"
++        ${git} "${DIR}/patches/a4b/0383-SELinux-Enable-setting-security-contexts-on-rootfs-i.patch"
++        ${git} "${DIR}/patches/a4b/0384-selinux-enable-per-file-labeling-for-debugfs-files.patch"
++        ${git} "${DIR}/patches/a4b/0385-selinux-enable-genfscon-labeling-for-sysfs-and-pstor.patch"
++        ${git} "${DIR}/patches/a4b/0386-selinux-do-not-check-open-perm-on-ftruncate-call.patch"
++        ${git} "${DIR}/patches/a4b/0387-security-add-ioctl-specific-auditing-to-lsm_audit.patch"
++        ${git} "${DIR}/patches/a4b/0388-selinux-extended-permissions-for-ioctls.patch"
++        ${git} "${DIR}/patches/a4b/0389-selinux-Android-kernel-compatibility-with-M-userspac.patch"
++        ${git} "${DIR}/patches/a4b/0390-SELinux-build-fix-for-4.1.patch"
++        ${git} "${DIR}/patches/a4b/0516-UPSTREAM-selinux-fix-bug-in-conditional-rules-handli.patch"
++        ${git} "${DIR}/patches/a4b/0603-BACKPORT-selinux-restrict-kernel-module-loading.patch"
++
++	if [ "x${regenerate}" = "xenable" ] ; then
++		number=1
++		cleanup
++	fi
++}
++
+ sync_mainline_dtc () {
+ 	echo "dir: dtc"
+ 	#regenerate="enable"
+@@ -1032,6 +1060,7 @@ pru_rpmsg
+ bbb_overlays
+ beaglebone
+ quieter
++a4b
+ sync_mainline_dtc
+ 
+ packaging () {
+-- 
+2.1.4
+
